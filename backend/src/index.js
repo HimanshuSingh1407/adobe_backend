@@ -16,7 +16,7 @@ app.use("/users",UserRoute)
 app.use("/posts",PostRoute)
 
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 app.listen(port, async () => {
   await ConnectDatabase();
   console.log(`http://localhost:${port}`);
