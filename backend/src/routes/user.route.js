@@ -27,15 +27,11 @@ app.get("/:id", async (req, res) => {
 });
 
 app.put("/:id", async (req, res) => {
-
   try {
     const { bio, name } = req.body;
+    console.log(bio, name);
     const id = req.params.id;
-    const user = await UserModel.findOneAndUpdate(
-      { id: id },
-      { name: name },
-      { bio: bio }
-    );
+    const user = await UserModel.findOneAndUpdate({ id: id }, { bio, name });
     res.send(user);
   } catch (e) {
     res.status(500).send(e.message);
@@ -63,8 +59,19 @@ app.get("/analytics/users", async (req, res) => {
 });
 
 app.get("/analytics/users/top-active", async (req, res) => {
-
-
+  const totalPostData = await PostModel.find();
+  let obj = {};
+  for (let x = 0; x < totalPostData.length; x++) {
+    if (obj[totalPostData[x].user_id] === undefined) {
+      obj[totalPostData[x].user_id] = 1;
+    } else {
+      obj[totalPostData[x].user_id]++;
+    }
+  }
+  const sortedObj = Object.entries(obj)
+    .sort((a, b) => b[1] - a[1])
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+  res.send(sortedObj);
 });
 
 app.get("/", async (req, res) => {

@@ -32,7 +32,8 @@ app.put('/:id', async (req, res) => {
   try{
      const {content}=req.body;
      const id =req.params.id
-       const post=await PostModel.findOneAndUpdate({id:id},{content:content})
+       const post=await PostModel.findOneAndUpdate({id:id},{content})
+       console.log(content)
        res.send(post);
   }catch(e){
      res.status(500).send(e.message)
@@ -52,6 +53,7 @@ app.delete('/:id', async (req, res) => {
 app.post('/:id/like', async (req, res) => {
     try{
       const postId=req.params.id
+      console.log(postId)
       const result = await PostModel.findOneAndUpdate(
         postId,
         { $inc: { likes: 1 } },
