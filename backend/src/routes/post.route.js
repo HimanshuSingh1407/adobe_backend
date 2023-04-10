@@ -82,7 +82,7 @@ app.post('/:id/dislike', async (req, res) => {
 app.get('/analytics/posts', async (req, res) => {
   PostModel.countDocuments({})
   .then(count => {
-    res.send(`Total number of users: ${count}`);
+    res.send(`Total number of Posts: ${count}`);
   })
   .catch(err => {
     res.send(err);
@@ -95,8 +95,8 @@ app.get('/analytics/users/top-liked', async (req, res) => {
 })
 
 app.get("/", async (req, res) => {
-  const users = await PostModel.find();
-  res.send(users);
+  const posts = await PostModel.find();
+  res.send(posts);
 });
 
 
